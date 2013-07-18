@@ -17,6 +17,28 @@ $(function () {
 	$('#year').text(austDay.getFullYear());
 });
 </script>
+
+<!-- Script for: an example of having function activate multiple instances -->
+<script type="text/javascript">
+$(function () {
+	//scan doc for the class name use normal jQuery selectors to change scope ex: $('#onlyinhere .countDownTo') 
+	  $('.CountDownTo').html(function() {
+					// Grab classes and store in an array
+					var classStr = $(this).attr('class').split(' ');
+					// Grab second class and store as variable
+					var unix_date = classStr[1];
+					// Convert Unix date (seconds) to milliseconds for Javascript
+					var javaDate = new Date(unix_date * 1000);				
+					// Activate countdown timer on the DOM object and an expiry function to hide it
+					$(this).countdown({until: javaDate, format: 'dhm',alwaysExpire:true, onExpiry:hide});
+					});
+	function hide(){
+	$(this).hide();
+};
+
+});
+</script>	
+	
 </head>
 <body>
 <h1>jQuery Countdown Basics</h1>
@@ -27,5 +49,17 @@ $(function () {
 <p>For more detail see the <a href="http://keith-wood.name/countdownRef.html">documentation reference</a> page.</p>
 <p>Counting down to 26 January <span id="year">2010</span>.</p>
 <div id="defaultCountdown"></div>
+
+
+<h1>Create a jQuery Doc Ready function to activate multiple instances</h1>
+<p>This jQuery function(see second doc ready in head) will scan your entire page for tags with the Class name "countDownTo" 
+and look for a second Class that is a UNIX timestamp. This allows you to write a PHP web application that spits 
+out something like <span class="CountDownTo 2702354400">August 20th 2055</span>. Then when the page is loaded the
+jQuery function will convert these to Countdown's. Plus if it fails it will you will still have a human readable date. 
+Also its not limited PHP many languages have functions to output UNIX timestamps. -Enjoy!
+	
+</p>
+
+
 </body>
 </html>
